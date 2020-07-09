@@ -133,4 +133,69 @@ class BlanklineInScopeTests: XCTestCase {
         XCTAssertEqual(output, formattedInput)
     }
 
+
+    func testBlankLineAtStartOfScope_expectNoFormatSwitch() {
+        let input = """
+        struct Foo {
+
+            func b() {
+                switch self {
+                    default:
+                        break
+                }
+            }
+
+        }
+        """
+
+        let output = """
+        struct Foo {
+
+            func b() {
+                switch self {
+                    default:
+                        break
+                }
+            }
+
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
+    func testBlankLineAtStartOfScope_NoFormatProtocolWithGetter() {
+        let input = """
+        protocol A {
+            var b: Int { get }
+        }
+        """
+
+        let output = """
+        protocol A {
+            var b: Int { get }
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
+    func testBlankLineAtStartOfScope_NoFormatClassFunc() {
+        let input = """
+        override class func foo() -> String? {
+            return ""
+        }
+        """
+
+        let output = """
+        override class func foo() -> String? {
+            return ""
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
 }
