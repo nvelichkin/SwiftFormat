@@ -772,6 +772,9 @@ public struct _FormatRules {
                 formatter.removeTokens(inRange: indexOfFirstLineBreak ..< indexOfLastLineBreak!)
                 return
             }
+        }
+    }
+
     public let insertBlankLinesAtScope = FormatRule(
         help: "Insert blank line at start and and of scope class, struct, extension",
         sharedOptions: ["linebreaks"]
@@ -798,9 +801,7 @@ public struct _FormatRules {
             default:
                 break
             }
-
         }
-
     }
 
     /// Adds a blank line immediately after a closing brace, unless followed by another closing brace
