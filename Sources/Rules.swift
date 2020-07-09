@@ -772,7 +772,35 @@ public struct _FormatRules {
                 formatter.removeTokens(inRange: indexOfFirstLineBreak ..< indexOfLastLineBreak!)
                 return
             }
+    public let insertBlankLinesAtScope = FormatRule(
+        help: "Insert blank line at start and and of scope class, struct, extension",
+        sharedOptions: ["linebreaks"]
+    ) { formatter in
+
+        formatter.forEachToken { i, token in
+            switch token {
+            case .keyword("class"),
+                 .keyword("struct"),
+                 .keyword("extension"):
+                guard let startOfScopeIndex = formatter.index(of: .startOfScope("{"), after: i),
+                    !(formatter.token(at: startOfScopeIndex + 2)?.isLinebreak ?? true)
+                else { return }
+
+                formatter.insertLinebreak(at: startOfScopeIndex + 1)
+
+            case .endOfScope("}"):
+                guard let prevEndScopeIndex = formatter.index(of: .endOfScope("}"), before: i),
+                    !(formatter.token(at: prevEndScopeIndex + 2)?.isLinebreak ?? true)
+                else { return }
+
+                formatter.insertLinebreak(at: prevEndScopeIndex + 1)
+
+            default:
+                break
+            }
+
         }
+
     }
 
     /// Adds a blank line immediately after a closing brace, unless followed by another closing brace
