@@ -475,7 +475,6 @@
 			buildPhases = (
 				01CAB4412339503F00AE244F /* Generate Linux Tests */,
 				01A0EA9F1D5DB4CF00A0A8E3 /* Sources */,
-				0142F06D1D72B4A6007D66CC /* Format Code */,
 				01A0EAA01D5DB4CF00A0A8E3 /* Frameworks */,
 				01A0EAA11D5DB4CF00A0A8E3 /* Headers */,
 				01A0EAA21D5DB4CF00A0A8E3 /* Resources */,
@@ -686,20 +685,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/format.sh\"";
-		};
-		0142F06D1D72B4A6007D66CC /* Format Code */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Format Code";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/format.sh\"\n";
 		};
 		017AEBB31D6F27D500764325 /* Copy Binary */ = {
 			isa = PBXShellScriptBuildPhase;
