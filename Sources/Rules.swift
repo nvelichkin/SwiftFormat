@@ -789,8 +789,9 @@ public struct _FormatRules {
                     !(formatter.token(at: startOfScopeIndex + 2)?.isLinebreak ?? true)
                 else { return }
 
-                if let funcToken = formatter.lastToken(before: startOfScopeIndex, where: { $0 == .keyword("func") }),
-                    let funcIndex = formatter.index(of: token, before: startOfScopeIndex) {
+                if let wrongToken = formatter.lastToken(before: startOfScopeIndex, where: {
+                    $0 == .keyword("func") || $0 == .keyword("protocol") }),
+                    let wrongIndex = formatter.index(of: token, before: startOfScopeIndex) {
 
                     let startOfScopeLine = formatter.originalLine(at: startOfScopeIndex)
                     let funcLine = formatter.originalLine(at: startOfScopeIndex)
@@ -804,8 +805,8 @@ public struct _FormatRules {
                     let startOfScopeIndex = formatter.index(of: currentScopeToken, before: i),
                     let token = formatter.lastToken(before: startOfScopeIndex, where: {
                         $0 == .keyword("class") ||
-                            $0 == .keyword("struct") ||
-                            $0 == .keyword("extension")
+                        $0 == .keyword("struct") ||
+                        $0 == .keyword("extension")
                     }),
                     let keywordIndex = formatter.index(of: token, before: startOfScopeIndex)
                     else { return }
@@ -813,12 +814,21 @@ public struct _FormatRules {
                 let startOfScopeLine = formatter.originalLine(at: startOfScopeIndex)
                 let keywordLine = formatter.originalLine(at: keywordIndex)
 
-                guard startOfScopeLine == keywordLine else { return }
+                if let wrongToken = formatter.lastToken(before: startOfScopeIndex, where: {
+                    $0 == .keyword("func") || $0 == .keyword("protocol") }),
+                    let wrongIndex = formatter.index(of: token, before: startOfScopeIndex) {
+                    let funcLine = formatter.originalLine(at: wrongIndex)
+                    if startOfScopeLine == funcLine { return }
+                }
 
-                guard let prevEndScopeIndex = formatter.index(of: .endOfScope("}"), before: i),
-                    prevEndScopeIndex == i - 2,
-                    !(formatter.token(at: prevEndScopeIndex + 2)?.isLinebreak ?? true)
-                else { return }
+                guard startOfScopeLine == keywordLine else { return }
+                guard !(formatter.token(at: i)?.isLinebreak ?? true) else { return }
+                guard let prevEndScopeIndex = formatter.index(of: .endOfScope, before: i) else { return }
+
+                let isCloseBrace = formatter.token(at: prevEndScopeIndex) == .endOfScope("}")
+                let isCorrectEndOfScope = isCloseBrace || !(formatter.token(at: i - 3)?.isLinebreak ?? true)
+
+                guard isCorrectEndOfScope, prevEndScopeIndex == i - 2 else { return }
 
                 formatter.insertLinebreak(at: prevEndScopeIndex + 1)
 

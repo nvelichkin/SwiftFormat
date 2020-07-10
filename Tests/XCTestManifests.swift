@@ -89,7 +89,9 @@ extension BlanklineInScopeTests {
         ("testBlankLineAtStartOfScope_expectFormatAtStart", testBlankLineAtStartOfScope_expectFormatAtStart),
         ("testBlankLineAtStartOfScope_expectNoFormatSwitch", testBlankLineAtStartOfScope_expectNoFormatSwitch),
         ("testBlankLineAtStartOfScope_expectNoFormatting", testBlankLineAtStartOfScope_expectNoFormatting),
+        ("testBlankLineAtStartOfScope_FormatStructWithoutFunc", testBlankLineAtStartOfScope_FormatStructWithoutFunc),
         ("testBlankLineAtStartOfScope_NoFormatClassFunc", testBlankLineAtStartOfScope_NoFormatClassFunc),
+        ("testBlankLineAtStartOfScope_NoFormatProtocolClass", testBlankLineAtStartOfScope_NoFormatProtocolClass),
         ("testBlankLineAtStartOfScope_NoFormatProtocolWithGetter", testBlankLineAtStartOfScope_NoFormatProtocolWithGetter),
     ]
 }

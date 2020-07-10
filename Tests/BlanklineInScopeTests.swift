@@ -198,4 +198,40 @@ class BlanklineInScopeTests: XCTestCase {
         let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
         XCTAssertEqual(output, formattedInput)
     }
+
+    func testBlankLineAtStartOfScope_NoFormatProtocolClass() {
+        let input = """
+        protocol A: class {
+            func bar()
+        }
+        """
+
+        let output = """
+        protocol A: class {
+            func bar()
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
+    func testBlankLineAtStartOfScope_FormatStructWithoutFunc() {
+        let input = """
+        struct A {
+            var bar = ""
+        }
+        """
+
+        let output = """
+        struct A {
+
+            var bar = ""
+
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
 }
