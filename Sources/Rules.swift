@@ -850,7 +850,7 @@ public struct _FormatRules {
                 else { return }
 
             let endOfLine = formatter.endOfLine(at: i)
-            guard !(formatter.token(at: endOfLine + 1)?.isLinebreak ?? true) else { return }
+            guard !(formatter.token(at: endOfLine + 1)?.isLinebreak ?? true) && !(formatter.token(at: endOfLine + 2)?.isEndOfScope ?? true) else { return }
             formatter.insertLinebreak(at: endOfLine)
         }
     }

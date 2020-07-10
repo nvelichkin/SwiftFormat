@@ -272,4 +272,23 @@ class BlanklineInScopeTests: XCTestCase {
         XCTAssertEqual(output, formattedInput)
     }
 
+    func testBlanklineAfterCallSuper_superAtBottom_expectNoFormatting() {
+        let input = """
+        override func foo() {
+            _view = a
+            super.foo()
+        }
+        """
+
+        let output = """
+        override func foo() {
+            _view = a
+            super.foo()
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.addBlanklineBeforeSuper])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
 }
