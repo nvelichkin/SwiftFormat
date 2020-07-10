@@ -838,6 +838,23 @@ public struct _FormatRules {
         }
     }
 
+    public let addBlanklineBeforeSuper = FormatRule(
+        help: "Insert blank line before super call",
+        sharedOptions: ["linebreaks"]
+    ) { formatter in
+        formatter.forEachToken { i, token in
+            guard token.isIdentifier, token.unescaped() == "super" else { return }
+            guard let dotIndex = formatter.index(of: .nonSpaceOrLinebreak, after: i, if: {
+                $0 == .operator(".", .infix) }),
+                dotIndex == i + 1
+                else { return }
+
+            let endOfLine = formatter.endOfLine(at: i)
+            guard !(formatter.token(at: endOfLine + 1)?.isLinebreak ?? true) else { return }
+            formatter.insertLinebreak(at: endOfLine)
+        }
+    }
+
     /// Adds a blank line immediately after a closing brace, unless followed by another closing brace
     public let blankLinesBetweenScopes = FormatRule(
         help: """

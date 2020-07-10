@@ -234,4 +234,42 @@ class BlanklineInScopeTests: XCTestCase {
         let formattedInput = (try? format(input, rules: [FormatRules.insertBlankLinesAtScope])) ?? ""
         XCTAssertEqual(output, formattedInput)
     }
+
+    func testBlanklineAfterCallSuper() {
+        let input = """
+        override func foo() {
+            super.foo()
+        }
+        """
+
+        let output = """
+        override func foo() {
+            super.foo()
+
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.addBlanklineBeforeSuper])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
+    func testBlanklineAfterCallSuper_expectNoFormatting() {
+        let input = """
+        override func foo() {
+            super.foo()
+
+        }
+        """
+
+        let output = """
+        override func foo() {
+            super.foo()
+
+        }
+        """
+
+        let formattedInput = (try? format(input, rules: [FormatRules.addBlanklineBeforeSuper])) ?? ""
+        XCTAssertEqual(output, formattedInput)
+    }
+
 }

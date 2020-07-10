@@ -84,6 +84,8 @@ extension BlanklineInScopeTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__BlanklineInScopeTests = [
+        ("testBlanklineAfterCallSuper", testBlanklineAfterCallSuper),
+        ("testBlanklineAfterCallSuper_expectNoFormatting", testBlanklineAfterCallSuper_expectNoFormatting),
         ("testBlankLineAtStartOfScope", testBlankLineAtStartOfScope),
         ("testBlankLineAtStartOfScope_expectFormatAtEnd", testBlankLineAtStartOfScope_expectFormatAtEnd),
         ("testBlankLineAtStartOfScope_expectFormatAtStart", testBlankLineAtStartOfScope_expectFormatAtStart),
